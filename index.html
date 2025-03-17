@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abaqus ile Basınçlı Kap Patlatma Analizi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f5f6fa;
+        }
+
+        .header {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('pressure-vessel.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #ecf0f1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav {
+            background-color: #34495e;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #34495e;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-card ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        .info-card ul li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            color: #34495e;
+        }
+
+        .info-card ul li:before {
+            content: "•";
+            color: #34495e;
+            position: absolute;
+            left: -1rem;
+            font-weight: bold;
+        }
+
+        .analysis-steps {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .step {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #34495e;
+        }
+
+        .step h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            color: #34495e;
+            margin-bottom: 1rem;
+        }
+
+        .formula {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .safety-tips {
+            background-color: #fff3cd;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .safety-tips h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .safety-tips ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        .safety-tips ul li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            color: #856404;
+        }
+
+        .safety-tips ul li:before {
+            content: "⚠️";
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                margin: 0.5rem 0;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .tutorial-step {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .tutorial-step h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tutorial-step h3 i {
+            color: #34495e;
+            font-size: 1.6rem;
+        }
+
+        .tutorial-step img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .analysis-result {
+            background-color: #e8f5e9;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .analysis-result h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+        }
+
+        .analysis-result ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        .analysis-result ul li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            color: #1b5e20;
+        }
+
+        .analysis-result ul li:before {
+            content: "✓";
+            color: #2e7d32;
+            position: absolute;
+            left: -1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Abaqus ile Basınçlı Kap Patlatma Analizi</h1>
+        <p>Sonlu Elemanlar Analizi kullanarak basınçlı kap patlatma analizini adım adım öğrenin</p>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="#overview">Genel Bakış</a></li>
+            <li><a href="#preparation">Hazırlık</a></li>
+            <li><a href="#modeling">Modelleme</a></li>
+            <li><a href="#analysis">Analiz</a></li>
+            <li><a href="#results">Sonuçlar</a></li>
+            <li><a href="#contact">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <section id="overview" class="section">
+        <h2>Genel Bakış</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Neden Abaqus?</h3>
+                <ul>
+                    <li>Yüksek doğruluk oranı</li>
+                    <li>Detaylı sonuç analizi</li>
+                    <li>Görselleştirme imkanı</li>
+                    <li>Malzeme davranışlarını modelleme</li>
+                    <li>Gerçekçi sonuçlar</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Analiz Süreci</h3>
+                <ul>
+                    <li>Geometri oluşturma</li>
+                    <li>Malzeme tanımlama</li>
+                    <li>Mesh oluşturma</li>
+                    <li>Yük ve sınır koşulları</li>
+                    <li>Sonuç analizi</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="preparation" class="section">
+        <h2>Hazırlık Aşaması</h2>
+        <div class="tutorial-step">
+            <h3><i class="fas fa-tools"></i> Gerekli Verilerin Toplanması</h3>
+            <p>Analiz için gerekli olan temel veriler:</p>
+            <ul>
+                <li>Kap geometrisi (çap, yükseklik, duvar kalınlığı)</li>
+                <li>Malzeme özellikleri (Young modülü, Poisson oranı, akma dayanımı)</li>
+                <li>Çalışma basıncı ve sıcaklığı</li>
+                <li>Patlama senaryosu parametreleri</li>
+            </ul>
+            <div class="note-box">
+                <strong>Önemli Not:</strong> Malzeme özelliklerinin doğru tanımlanması, analiz sonuçlarının güvenilirliği için kritiktir.
+            </div>
+        </div>
+    </section>
+
+    <section id="modeling" class="section">
+        <h2>Modelleme Aşaması</h2>
+        <div class="tutorial-step">
+            <h3><i class="fas fa-drafting-compass"></i> 1. Geometri Oluşturma</h3>
+            <p>Abaqus'ta basınçlı kap modelini oluşturmak için:</p>
+            <ol>
+                <li>Part modülünde "Create Part" seçeneğini kullanın</li>
+                <li>Silindirik geometriyi tanımlayın</li>
+                <li>Duvar kalınlığını belirleyin</li>
+                <li>Simetri düzlemlerini tanımlayın</li>
+            </ol>
+        </div>
+
+        <div class="tutorial-step">
+            <h3><i class="fas fa-cube"></i> 2. Malzeme Tanımlama</h3>
+            <p>Property modülünde malzeme özelliklerini tanımlayın:</p>
+            <div class="code-block">
+                *Material, name=STEEL<br>
+                *Elastic<br>
+                210000, 0.3<br>
+                *Plastic<br>
+                250, 0<br>
+                300, 0.1<br>
+                350, 0.2
+            </div>
+        </div>
+
+        <div class="tutorial-step">
+            <h3><i class="fas fa-network-wired"></i> 3. Mesh Oluşturma</h3>
+            <p>Mesh modülünde sonlu eleman ağını oluşturun:</p>
+            <ul>
+                <li>Eleman tipini seçin (C3D8R önerilir)</li>
+                <li>Mesh boyutunu belirleyin</li>
+                <li>Mesh kalitesini kontrol edin</li>
+            </ul>
+            <div class="warning-box">
+                <strong>Uyarı:</strong> Mesh kalitesi analiz sonuçlarını doğrudan etkiler. Çok büyük veya çok küçük elemanlar kullanmaktan kaçının.
+            </div>
+        </div>
+    </section>
+
+    <section id="analysis" class="section">
+        <h2>Analiz Aşaması</h2>
+        <div class="tutorial-step">
+            <h3><i class="fas fa-cogs"></i> 1. Yük ve Sınır Koşulları</h3>
+            <p>Step modülünde analiz adımlarını tanımlayın:</p>
+            <ul>
+                <li>Static, General adımı oluşturun</li>
+                <li>Basınç yükünü tanımlayın</li>
+                <li>Sınır koşullarını belirleyin</li>
+            </ul>
+        </div>
+
+        <div class="tutorial-step">
+            <h3><i class="fas fa-play"></i> 2. Analizi Çalıştırma</h3>
+            <p>Job modülünde analizi başlatın:</p>
+            <ol>
+                <li>Yeni job oluşturun</li>
+                <li>Model ve analiz adımlarını seçin</li>
+                <li>Submit butonuna tıklayın</li>
+                <li>Analiz sonuçlarını bekleyin</li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="results" class="section">
+        <h2>Sonuçların Değerlendirilmesi</h2>
+        <div class="analysis-result">
+            <h3>Analiz Sonuçları</h3>
+            <p>Visualization modülünde sonuçları inceleyin:</p>
+            <ul>
+                <li>Von Mises gerilme dağılımı</li>
+                <li>Deformasyon şekilleri</li>
+                <li>Plastik deformasyon bölgeleri</li>
+                <li>Patlama basıncı değeri</li>
+            </ul>
+        </div>
+
+        <div class="tutorial-step">
+            <h3><i class="fas fa-chart-line"></i> Sonuçların Yorumlanması</h3>
+            <p>Analiz sonuçlarını değerlendirirken dikkat edilmesi gerekenler:</p>
+            <ul>
+                <li>Maksimum gerilme değerleri</li>
+                <li>Deformasyon limitleri</li>
+                <li>Güvenlik faktörü</li>
+                <li>Patlama basıncı karşılaştırması</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2>İletişim</h2>
+        <div class="info-card">
+            <h3>Uzman Desteği</h3>
+            <p>Abaqus ile basınçlı kap patlatma analizi konusunda uzman desteği almak için bizimle iletişime geçebilirsiniz.</p>
+            <ul>
+                <li>📧 info@abaqus-analysis.com</li>
+                <li>📞 +90 555 123 4567</li>
+                <li>📍 Ankara, Türkiye</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Abaqus ile Basınçlı Kap Patlatma Analizi. Tüm hakları saklıdır.</p>
+    </footer>
+</body>
+</html> 
