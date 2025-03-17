@@ -20,7 +20,7 @@
         }
 
         .header {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('pressure-vessel.jpg');
+            background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.85)), url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             color: white;
@@ -33,6 +33,7 @@
             font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
@@ -41,10 +42,11 @@
             color: #ecf0f1;
             max-width: 800px;
             margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         .nav {
-            background-color: #34495e;
+            background-color: #1a237e;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -69,7 +71,7 @@
         }
 
         .nav a:hover {
-            background-color: #2c3e50;
+            background-color: #283593;
             color: white;
         }
 
@@ -122,7 +124,7 @@
         }
 
         .section h2 {
-            color: #2c3e50;
+            color: #1a237e;
             margin-bottom: 2rem;
             text-align: center;
             font-size: 2rem;
@@ -139,7 +141,7 @@
             transform: translateX(-50%);
             width: 100px;
             height: 3px;
-            background-color: #34495e;
+            background-color: #1a237e;
         }
 
         .info-grid {
@@ -153,16 +155,18 @@
             background: white;
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(26, 35, 126, 0.1);
         }
 
         .info-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
         }
 
         .info-card h3 {
-            color: #2c3e50;
+            color: #1a237e;
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -251,7 +255,7 @@
         }
 
         .footer {
-            background-color: #2c3e50;
+            background-color: #1a237e;
             color: white;
             text-align: center;
             padding: 1.5rem 0;
@@ -280,12 +284,13 @@
             background: white;
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             margin-bottom: 2rem;
+            border: 1px solid rgba(26, 35, 126, 0.1);
         }
 
         .tutorial-step h3 {
-            color: #2c3e50;
+            color: #1a237e;
             margin-bottom: 1rem;
             font-size: 1.4rem;
             display: flex;
@@ -294,7 +299,7 @@
         }
 
         .tutorial-step h3 i {
-            color: #34495e;
+            color: #1a237e;
             font-size: 1.6rem;
         }
 
@@ -308,14 +313,14 @@
 
         .note-box {
             background-color: #e3f2fd;
-            border-left: 4px solid #2196f3;
+            border-left: 4px solid #1a237e;
             padding: 1rem;
             margin: 1rem 0;
         }
 
         .warning-box {
             background-color: #fff3e0;
-            border-left: 4px solid #ff9800;
+            border-left: 4px solid #f57c00;
             padding: 1rem;
             margin: 1rem 0;
         }
@@ -327,6 +332,7 @@
             font-family: monospace;
             margin: 1rem 0;
             overflow-x: auto;
+            border: 1px solid rgba(26, 35, 126, 0.1);
         }
 
         .analysis-result {
@@ -334,6 +340,7 @@
             padding: 2rem;
             border-radius: 8px;
             margin: 2rem 0;
+            border: 1px solid rgba(46, 125, 50, 0.1);
         }
 
         .analysis-result h3 {
@@ -359,6 +366,47 @@
             left: -1rem;
             font-weight: bold;
         }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 35, 126, 0.9);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -383,6 +431,16 @@
 
     <section id="overview" class="section">
         <h2>Genel Bakış</h2>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Basınçlı Kap">
+                <div class="gallery-caption">Endüstriyel Basınçlı Kap</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Analiz Görseli">
+                <div class="gallery-caption">Sonlu Elemanlar Analizi</div>
+            </div>
+        </div>
         <div class="info-grid">
             <div class="info-card">
                 <h3>Neden Abaqus?</h3>
@@ -426,6 +484,16 @@
 
     <section id="modeling" class="section">
         <h2>Modelleme Aşaması</h2>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Geometri">
+                <div class="gallery-caption">3D Geometri Modeli</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Mesh">
+                <div class="gallery-caption">Sonlu Elemanlar Ağı</div>
+            </div>
+        </div>
         <div class="tutorial-step">
             <h3><i class="fas fa-drafting-compass"></i> 1. Geometri Oluşturma</h3>
             <p>Abaqus'ta basınçlı kap modelini oluşturmak için:</p>
@@ -491,6 +559,16 @@
 
     <section id="results" class="section">
         <h2>Sonuçların Değerlendirilmesi</h2>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Gerilme">
+                <div class="gallery-caption">Von Mises Gerilme Dağılımı</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Deformasyon">
+                <div class="gallery-caption">Deformasyon Şekilleri</div>
+            </div>
+        </div>
         <div class="analysis-result">
             <h3>Analiz Sonuçları</h3>
             <p>Visualization modülünde sonuçları inceleyin:</p>
