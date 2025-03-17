@@ -73,6 +73,48 @@
             color: white;
         }
 
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                text-align: right;
+            }
+
+            .nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #34495e;
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .nav ul.active {
+                display: flex;
+            }
+
+            .nav a {
+                display: block;
+                padding: 1rem;
+                margin: 0;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .nav a:last-child {
+                border-bottom: none;
+            }
+        }
+
         .section {
             padding: 4rem 2rem;
             max-width: 1200px;
@@ -326,6 +368,9 @@
     </header>
 
     <nav class="nav">
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
         <ul>
             <li><a href="#overview">Genel Bakış</a></li>
             <li><a href="#preparation">Hazırlık</a></li>
@@ -485,5 +530,18 @@
     <footer class="footer">
         <p>&copy; 2024 Abaqus ile Basınçlı Kap Patlatma Analizi. Tüm hakları saklıdır.</p>
     </footer>
+
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav ul').classList.toggle('active');
+        });
+
+        // Menü linklerine tıklandığında menüyü kapat
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav ul').classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html> 
